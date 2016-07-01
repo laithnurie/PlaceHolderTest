@@ -6,7 +6,7 @@ import com.laith.babylontest.model.User;
 
 import java.util.ArrayList;
 
-interface DBHelper {
+public interface DBHelper {
     void updatePosts(ArrayList<Post> posts);
     void updateUsers(ArrayList<User> users);
     void updateComments(ArrayList<Comment> users);

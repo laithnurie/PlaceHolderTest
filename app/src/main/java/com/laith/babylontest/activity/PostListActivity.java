@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class PostListActivity extends AppCompatActivity implements PostResponseCallback {
+public class PostListActivity extends AppCompatActivity implements PostUpdateCallback {
 
     private static final String POSTS_KEY = "posts";
     @Inject
@@ -22,7 +22,6 @@ public class PostListActivity extends AppCompatActivity implements PostResponseC
     @Inject
     BlogDBHelper blogDBHelper;
 
-    private PostListViewModel postListViewModel;
     private ArrayList<Post> posts;
 
     @Override
@@ -31,34 +30,14 @@ public class PostListActivity extends AppCompatActivity implements PostResponseC
         setContentView(R.layout.activity_main);
 
         BabylonApp.getAppComponent(this).inject(this);
-        postListViewModel = new PostListViewModel(findViewById(android.R.id.content));
+        PostListViewModel postListViewModel = new PostListViewModel(findViewById(android.R.id.content), feedService,
+                blogDBHelper, this);
 
         if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(POSTS_KEY) != null) {
             posts = savedInstanceState.getParcelableArrayList(POSTS_KEY);
-            postListViewModel.initialise(posts);
+            postListViewModel.setPosts(posts);
         } else {
-            NetworkCall networkCall = new NetworkCall(this, feedService);
-            networkCall.getPosts();
-        }
-    }
-
-    @Override
-    public void onSuccess(ArrayList<Post> posts) {
-        if (posts != null && posts.size() > 0) {
-            this.posts = posts;
-            blogDBHelper.updatePosts(posts);
-            postListViewModel.initialise(posts);
-        } else {
-            this.posts = blogDBHelper.getAllPosts();
-            postListViewModel.initialise(posts);
-        }
-    }
-
-    @Override
-    public void onFail() {
-        if (blogDBHelper.getAllPosts() != null && blogDBHelper.getAllPosts().size() > 0) {
-            posts = blogDBHelper.getAllPosts();
-            postListViewModel.initialise(posts);
+            postListViewModel.fetchPosts();
         }
     }
 
@@ -66,5 +45,10 @@ public class PostListActivity extends AppCompatActivity implements PostResponseC
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(POSTS_KEY, posts);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void updatePosts(ArrayList<Post> posts) {
+        this.posts = posts;
     }
 }

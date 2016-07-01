@@ -1,14 +1,10 @@
 package com.laith.babylontest.dagger;
 
-import android.app.Application;
-
 import com.laith.babylontest.BabylonApp;
 import com.laith.babylontest.activity.PostListActivity;
-import com.laith.babylontest.service.FeedService;
-
+import com.laith.babylontest.viewmodel.PostListViewModel;
 
 import dagger.Component;
-
 
 @PerApp
 @Component(
@@ -21,9 +17,5 @@ import dagger.Component;
 public interface BabylonAppComponent {
     void inject(BabylonApp babylonApp);
     void inject(PostListActivity activity);
-
-    Application app();
-
-    FeedService placeHolderService();
-
+    void inject(PostListViewModel postListViewModel);
 }
