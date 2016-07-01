@@ -8,7 +8,7 @@ import dagger.Provides;
 
 @Module
 public class NetworkModule {
-    private FeedService feedService;
+    private final FeedService feedService;
 
     public NetworkModule(FeedService feedService) {
         this.feedService = feedService;

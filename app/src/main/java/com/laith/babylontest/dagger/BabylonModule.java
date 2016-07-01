@@ -9,7 +9,7 @@ import dagger.Provides;
 @Module
 public class BabylonModule {
 
-    private Application app;
+    private final Application app;
 
     public BabylonModule(Application app) {
         this.app = app;

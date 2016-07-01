@@ -2,7 +2,6 @@ package com.laith.babylontest.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.laith.babylontest.BabylonApp;
 import com.laith.babylontest.R;
@@ -21,7 +20,7 @@ import retrofit2.Response;
 
 public class PostListActivity extends AppCompatActivity {
 
-    private static String POSTS_KEY = "posts";
+    private static final String POSTS_KEY = "posts";
     @Inject
     FeedService feedService;
     @Inject

@@ -7,7 +7,7 @@ import dagger.Provides;
 
 @Module
 public class DatabaseModule {
-    private BlogDBHelper blogDBHelper;
+    private final BlogDBHelper blogDBHelper;
 
     public DatabaseModule(BlogDBHelper blogDBHelper) {
         this.blogDBHelper = blogDBHelper;

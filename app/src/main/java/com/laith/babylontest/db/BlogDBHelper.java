@@ -207,7 +207,7 @@ public class BlogDBHelper extends SQLiteOpenHelper implements DBHelper {
                 sortOrder                                 // The sort order
         );
 
-        ArrayList<Post> posts = new ArrayList<Post>();
+        ArrayList<Post> posts = new ArrayList<>();
         c.moveToFirst();
         while (!c.isAfterLast()) {
             Post post = new Post();

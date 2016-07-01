@@ -37,7 +37,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.View
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtPostTitle;
+        final TextView txtPostTitle;
 
         ViewHolder(View v) {
             super(v);
