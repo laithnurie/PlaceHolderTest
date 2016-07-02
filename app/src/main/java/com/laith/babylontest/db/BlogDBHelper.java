@@ -49,7 +49,9 @@ public class BlogDBHelper extends SQLiteOpenHelper implements DBHelper {
                     PostTable._POST_ID + " INTEGER PRIMARY KEY," +
                     PostTable.USER_ID + " INTEGER," +
                     PostTable.TITLE + TEXT_TYPE + COMMA_SEP +
-                    PostTable.BODY + TEXT_TYPE + " )";
+                    PostTable.BODY + TEXT_TYPE + COMMA_SEP +
+                    "FOREIGN KEY(" + PostTable.USER_ID + ") REFERENCES " + UserTable.TABLE_NAME
+                    + "(" + UserTable._ID + "))";
 
     private static final String SQL_DELETE_POST =
             "DROP TABLE IF EXISTS " + PostTable.TABLE_NAME;
@@ -60,7 +62,9 @@ public class BlogDBHelper extends SQLiteOpenHelper implements DBHelper {
                     CommentTable.POST_ID + " INTEGER," +
                     CommentTable.NAME + TEXT_TYPE + COMMA_SEP +
                     CommentTable.EMAIL + TEXT_TYPE + COMMA_SEP +
-                    CommentTable.BODY + TEXT_TYPE + " )";
+                    CommentTable.BODY + TEXT_TYPE + COMMA_SEP +
+                    "FOREIGN KEY(" + CommentTable.POST_ID + ") REFERENCES " + PostTable.TABLE_NAME
+                    + "(" + PostTable._POST_ID + "))";
 
     private static final String SQL_DELETE_COMMENT =
             "DROP TABLE IF EXISTS " + CommentTable.TABLE_NAME;
@@ -147,7 +151,7 @@ public class BlogDBHelper extends SQLiteOpenHelper implements DBHelper {
         }
     }
 
-    public ArrayList<User> getAllUser(){
+    public ArrayList<User> getAllUser() {
         return new ArrayList<>();
     }
 
@@ -258,7 +262,7 @@ public class BlogDBHelper extends SQLiteOpenHelper implements DBHelper {
         }
     }
 
-    public ArrayList<Comment> getAllComment(){
+    public ArrayList<Comment> getAllComment() {
         return new ArrayList<>();
     }
 
