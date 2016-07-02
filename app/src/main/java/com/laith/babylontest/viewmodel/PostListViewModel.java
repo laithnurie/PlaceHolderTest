@@ -1,6 +1,6 @@
 package com.laith.babylontest.viewmodel;
 
-
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -16,31 +16,28 @@ import java.util.ArrayList;
 
 public class PostListViewModel implements PostViewModel, PostResponseCallback {
 
+    private static final String POSTS_KEY = "posts";
+
     private final DBHelper dbHelper;
-    private final PostNetworkCall postNetworkCall;
     private final RecyclerView postsList;
     private ArrayList<Post> posts;
 
-    public PostListViewModel(View rootview, PostNetworkCall postNetworkCall, DBHelper dbHelper) {
+    public PostListViewModel(View rootview, PostNetworkCall postNetworkCall, DBHelper dbHelper,
+                             Bundle savedInstanceState) {
         this.dbHelper = dbHelper;
-        this.postNetworkCall = postNetworkCall;
         postsList = (RecyclerView) rootview.findViewById(R.id.postList);
         postsList.setLayoutManager(new LinearLayoutManager(rootview.getContext()));
+        if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(POSTS_KEY) != null) {
+            posts = savedInstanceState.getParcelableArrayList(POSTS_KEY);
+            updatePostList(posts);
+        } else {
+            postNetworkCall.getPosts(this);
+        }
     }
 
     @Override
-    public void updatePostList(ArrayList<Post> posts) {
-        postsList.setAdapter(new PostsListAdapter(posts));
-    }
-
-    @Override
-    public void fetchPosts() {
-        postNetworkCall.getPosts(this);
-    }
-
-    @Override
-    public ArrayList<Post> getPosts() {
-        return this.posts;
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(POSTS_KEY, posts);
     }
 
     @Override
@@ -53,7 +50,6 @@ public class PostListViewModel implements PostViewModel, PostResponseCallback {
             this.posts = dbHelper.getAllPosts();
             updatePostList(this.posts);
         }
-
     }
 
     @Override
@@ -62,5 +58,9 @@ public class PostListViewModel implements PostViewModel, PostResponseCallback {
             this.posts = dbHelper.getAllPosts();
             updatePostList(this.posts);
         }
+    }
+
+    private void updatePostList(ArrayList<Post> posts) {
+        postsList.setAdapter(new PostsListAdapter(posts));
     }
 }
