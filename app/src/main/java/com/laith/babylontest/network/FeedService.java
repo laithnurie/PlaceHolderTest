@@ -1,4 +1,4 @@
-package com.laith.babylontest.service;
+package com.laith.babylontest.network;
 
 import com.laith.babylontest.model.Comment;
 import com.laith.babylontest.model.Post;

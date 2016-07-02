@@ -9,15 +9,18 @@ import android.widget.TextView;
 
 import com.laith.babylontest.R;
 import com.laith.babylontest.model.Post;
+import com.laith.babylontest.viewmodel.PostClickListener;
 
 import java.util.ArrayList;
 
 public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.ViewHolder> {
 
     private ArrayList<Post> posts;
+    private PostClickListener clickListener;
 
-    public PostsListAdapter(ArrayList<Post> posts) {
+    public PostsListAdapter(ArrayList<Post> posts, PostClickListener clickListener) {
         this.posts = posts;
+        this.clickListener = clickListener;
     }
 
     @Override
@@ -36,13 +39,18 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.View
         return posts.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final TextView txtPostTitle;
 
         ViewHolder(View v) {
             super(v);
-            txtPostTitle = (TextView) v.findViewById(R.id.txt_post_title);
+            txtPostTitle = (TextView) v.findViewById(R.id.txt_post_item_title);
+            txtPostTitle.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            clickListener.onClick(posts.get(getLayoutPosition()));
+        }
     }
 }

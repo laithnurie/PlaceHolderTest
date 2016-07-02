@@ -1,7 +1,8 @@
-package com.laith.babylontest.activity;
+package com.laith.babylontest.network;
 
+import com.laith.babylontest.activity.PostNetworkCall;
+import com.laith.babylontest.activity.PostResponseCallback;
 import com.laith.babylontest.model.Post;
-import com.laith.babylontest.service.FeedService;
 
 import java.util.ArrayList;
 

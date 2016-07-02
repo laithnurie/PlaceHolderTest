@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.facebook.stetho.Stetho;
-import com.laith.babylontest.activity.NetworkCall;
+import com.laith.babylontest.network.NetworkCall;
 import com.laith.babylontest.activity.PostNetworkCall;
 import com.laith.babylontest.dagger.BabylonAppComponent;
 import com.laith.babylontest.dagger.BabylonModule;
@@ -12,7 +12,7 @@ import com.laith.babylontest.dagger.DaggerBabylonAppComponent;
 import com.laith.babylontest.dagger.DatabaseModule;
 import com.laith.babylontest.dagger.NetworkModule;
 import com.laith.babylontest.db.BlogDBHelper;
-import com.laith.babylontest.service.FeedService;
+import com.laith.babylontest.network.FeedService;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

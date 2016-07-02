@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.laith.babylontest.BabylonApp;
 import com.laith.babylontest.R;
 import com.laith.babylontest.db.DBHelper;
+import com.laith.babylontest.viewmodel.PostListPortraitViewModel;
 import com.laith.babylontest.viewmodel.PostListViewModel;
-import com.laith.babylontest.viewmodel.PostViewModel;
 
 import javax.inject.Inject;
 
@@ -18,7 +18,7 @@ public class PostListActivity extends AppCompatActivity {
     @Inject
     DBHelper blogDBHelper;
 
-    private PostViewModel postViewModel;
+    private PostListViewModel postListViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +26,13 @@ public class PostListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         BabylonApp.getAppComponent(this).inject(this);
-        postViewModel = new PostListViewModel(findViewById(android.R.id.content), networkCall,
+        postListViewModel = new PostListPortraitViewModel(findViewById(android.R.id.content), this, networkCall,
                 blogDBHelper, savedInstanceState);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        postViewModel.onSaveInstanceState(outState);
+        postListViewModel.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
 }
