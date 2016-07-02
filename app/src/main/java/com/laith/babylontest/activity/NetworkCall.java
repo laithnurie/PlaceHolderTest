@@ -9,17 +9,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NetworkCall {
+public class NetworkCall implements PostNetworkCall {
 
-    private PostResponseCallback callback;
     private FeedService feedService;
 
-    public NetworkCall(PostResponseCallback callback, FeedService feedService) {
-        this.callback = callback;
+    public NetworkCall(FeedService feedService) {
         this.feedService = feedService;
     }
 
-    public void getPosts() {
+    @Override
+    public void getPosts(final PostResponseCallback callback) {
         Call<ArrayList<Post>> postsCall = feedService.getPosts();
         postsCall.enqueue(new Callback<ArrayList<Post>>() {
             @Override
@@ -35,6 +34,4 @@ public class NetworkCall {
             }
         });
     }
-
-
 }

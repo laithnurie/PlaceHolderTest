@@ -1,21 +1,21 @@
 package com.laith.babylontest.dagger;
 
-import com.laith.babylontest.db.BlogDBHelper;
+import com.laith.babylontest.db.DBHelper;
 
 import dagger.Module;
 import dagger.Provides;
 
 @Module
 public class DatabaseModule {
-    private final BlogDBHelper blogDBHelper;
+    private final DBHelper blogDBHelper;
 
-    public DatabaseModule(BlogDBHelper blogDBHelper) {
+    public DatabaseModule(DBHelper blogDBHelper) {
         this.blogDBHelper = blogDBHelper;
     }
 
     @Provides
     @PerApp
-    BlogDBHelper provideBlogDBHelper() {
+    DBHelper provideBlogDBHelper() {
         return blogDBHelper;
     }
 }

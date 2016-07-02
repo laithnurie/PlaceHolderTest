@@ -1,23 +1,23 @@
 package com.laith.babylontest.dagger;
 
 
-import com.laith.babylontest.service.FeedService;
+import com.laith.babylontest.activity.PostNetworkCall;
 
 import dagger.Module;
 import dagger.Provides;
 
 @Module
 public class NetworkModule {
-    private final FeedService feedService;
+    private final PostNetworkCall networkCall;
 
-    public NetworkModule(FeedService feedService) {
-        this.feedService = feedService;
+    public NetworkModule(PostNetworkCall networkCall) {
+        this.networkCall = networkCall;
     }
 
     @Provides
     @PerApp
-    FeedService provideFeedService() {
-        return feedService;
+    PostNetworkCall provideNetworkCall() {
+        return networkCall;
     }
 
 }

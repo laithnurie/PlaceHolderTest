@@ -1,28 +1,29 @@
 package com.laith.babylontest.activity;
 
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.laith.babylontest.BabylonApp;
 import com.laith.babylontest.R;
-import com.laith.babylontest.db.BlogDBHelper;
-import com.laith.babylontest.service.FeedService;
+import com.laith.babylontest.db.DBHelper;
 import com.laith.babylontest.model.Post;
 import com.laith.babylontest.viewmodel.PostListViewModel;
+import com.laith.babylontest.viewmodel.PostViewModel;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class PostListActivity extends AppCompatActivity implements PostUpdateCallback {
+public class PostListActivity extends AppCompatActivity {
 
     private static final String POSTS_KEY = "posts";
     @Inject
-    FeedService feedService;
+    PostNetworkCall networkCall;
     @Inject
-    BlogDBHelper blogDBHelper;
+    DBHelper blogDBHelper;
 
-    private ArrayList<Post> posts;
+    private PostViewModel postViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,25 +31,20 @@ public class PostListActivity extends AppCompatActivity implements PostUpdateCal
         setContentView(R.layout.activity_main);
 
         BabylonApp.getAppComponent(this).inject(this);
-        PostListViewModel postListViewModel = new PostListViewModel(findViewById(android.R.id.content), feedService,
-                blogDBHelper, this);
+        postViewModel = new PostListViewModel(findViewById(android.R.id.content), networkCall,
+                blogDBHelper);
 
         if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(POSTS_KEY) != null) {
-            posts = savedInstanceState.getParcelableArrayList(POSTS_KEY);
-            postListViewModel.setPosts(posts);
+            ArrayList<Post> posts = savedInstanceState.getParcelableArrayList(POSTS_KEY);
+            postViewModel.updatePostList(posts);
         } else {
-            postListViewModel.fetchPosts();
+            postViewModel.fetchPosts();
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList(POSTS_KEY, posts);
+        outState.putParcelableArrayList(POSTS_KEY, postViewModel.getPosts());
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void updatePosts(ArrayList<Post> posts) {
-        this.posts = posts;
     }
 }

@@ -6,41 +6,41 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.laith.babylontest.R;
-import com.laith.babylontest.activity.NetworkCall;
+import com.laith.babylontest.activity.PostNetworkCall;
 import com.laith.babylontest.activity.PostResponseCallback;
-import com.laith.babylontest.activity.PostUpdateCallback;
 import com.laith.babylontest.adapter.PostsListAdapter;
 import com.laith.babylontest.db.DBHelper;
 import com.laith.babylontest.model.Post;
-import com.laith.babylontest.service.FeedService;
 
 import java.util.ArrayList;
 
-public class PostListViewModel implements PostResponseCallback {
+public class PostListViewModel implements PostViewModel, PostResponseCallback {
 
-    private DBHelper dbHelper;
-    private NetworkCall networkCall;
+    private final DBHelper dbHelper;
+    private final PostNetworkCall postNetworkCall;
+    private final RecyclerView postsList;
     private ArrayList<Post> posts;
 
-    private final RecyclerView postsList;
-
-    private PostUpdateCallback updateCallback;
-
-    public PostListViewModel(View rootview, FeedService feedService, DBHelper dbHelper,
-                             PostUpdateCallback updateCallback) {
+    public PostListViewModel(View rootview, PostNetworkCall postNetworkCall, DBHelper dbHelper) {
         this.dbHelper = dbHelper;
-        networkCall = new NetworkCall(this, feedService);
-        this.updateCallback = updateCallback;
+        this.postNetworkCall = postNetworkCall;
         postsList = (RecyclerView) rootview.findViewById(R.id.postList);
         postsList.setLayoutManager(new LinearLayoutManager(rootview.getContext()));
     }
 
-    public void setPosts(ArrayList<Post> posts) {
+    @Override
+    public void updatePostList(ArrayList<Post> posts) {
         postsList.setAdapter(new PostsListAdapter(posts));
     }
 
+    @Override
     public void fetchPosts() {
-        networkCall.getPosts();
+        postNetworkCall.getPosts(this);
+    }
+
+    @Override
+    public ArrayList<Post> getPosts() {
+        return this.posts;
     }
 
     @Override
@@ -48,11 +48,10 @@ public class PostListViewModel implements PostResponseCallback {
         if (posts != null && posts.size() > 0) {
             this.posts = posts;
             dbHelper.updatePosts(posts);
-            setPosts(posts);
-            updateCallback.updatePosts(posts);
+            updatePostList(posts);
         } else {
             this.posts = dbHelper.getAllPosts();
-            setPosts(this.posts);
+            updatePostList(this.posts);
         }
 
     }
@@ -61,8 +60,7 @@ public class PostListViewModel implements PostResponseCallback {
     public void onFail() {
         if (dbHelper.getAllPosts() != null && dbHelper.getAllPosts().size() > 0) {
             this.posts = dbHelper.getAllPosts();
-            setPosts(this.posts);
-            updateCallback.updatePosts(this.posts);
+            updatePostList(this.posts);
         }
     }
 }

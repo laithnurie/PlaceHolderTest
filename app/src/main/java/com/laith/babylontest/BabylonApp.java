@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.facebook.stetho.Stetho;
+import com.laith.babylontest.activity.NetworkCall;
+import com.laith.babylontest.activity.PostNetworkCall;
 import com.laith.babylontest.dagger.BabylonAppComponent;
 import com.laith.babylontest.dagger.BabylonModule;
 import com.laith.babylontest.dagger.DaggerBabylonAppComponent;
@@ -29,11 +31,12 @@ public class BabylonApp extends Application {
                 .baseUrl("http://jsonplaceholder.typicode.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        FeedService placeholderService = retrofit.create(FeedService.class);
+        FeedService feedService = retrofit.create(FeedService.class);
+        PostNetworkCall networkCall = new NetworkCall(feedService);
 
         babylonAppComponent = DaggerBabylonAppComponent.builder()
                 .babylonModule(new BabylonModule(this))
-                .networkModule(new NetworkModule(placeholderService))
+                .networkModule(new NetworkModule(networkCall))
                 .databaseModule(new DatabaseModule(new BlogDBHelper(this)))
                 .build();
         babylonAppComponent.inject(this);
