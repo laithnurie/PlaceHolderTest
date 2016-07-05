@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.facebook.stetho.Stetho;
 import com.laith.babylontest.network.NetworkCall;
-import com.laith.babylontest.activity.PostNetworkCall;
 import com.laith.babylontest.dagger.BabylonAppComponent;
 import com.laith.babylontest.dagger.BabylonModule;
 import com.laith.babylontest.dagger.DaggerBabylonAppComponent;
@@ -32,7 +31,7 @@ public class BabylonApp extends Application {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         FeedService feedService = retrofit.create(FeedService.class);
-        PostNetworkCall networkCall = new NetworkCall(feedService);
+        NetworkCall networkCall = new NetworkCall(feedService);
 
         babylonAppComponent = DaggerBabylonAppComponent.builder()
                 .babylonModule(new BabylonModule(this))

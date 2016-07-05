@@ -1,22 +1,22 @@
 package com.laith.babylontest.dagger;
 
 
-import com.laith.babylontest.activity.PostNetworkCall;
+import com.laith.babylontest.network.NetworkCall;
 
 import dagger.Module;
 import dagger.Provides;
 
 @Module
 public class NetworkModule {
-    private final PostNetworkCall networkCall;
+    private final NetworkCall networkCall;
 
-    public NetworkModule(PostNetworkCall networkCall) {
+    public NetworkModule(NetworkCall networkCall) {
         this.networkCall = networkCall;
     }
 
     @Provides
     @PerApp
-    PostNetworkCall provideNetworkCall() {
+    NetworkCall provideNetworkCall() {
         return networkCall;
     }
 

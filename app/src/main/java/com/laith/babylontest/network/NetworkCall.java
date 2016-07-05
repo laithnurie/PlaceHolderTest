@@ -1,8 +1,16 @@
 package com.laith.babylontest.network;
 
+import android.util.Log;
+
+import com.laith.babylontest.activity.CommentNetworkCall;
+import com.laith.babylontest.activity.CommentResponseCallback;
 import com.laith.babylontest.activity.PostNetworkCall;
 import com.laith.babylontest.activity.PostResponseCallback;
+import com.laith.babylontest.activity.UserNetworkCall;
+import com.laith.babylontest.activity.UserResponseCallback;
+import com.laith.babylontest.model.Comment;
 import com.laith.babylontest.model.Post;
+import com.laith.babylontest.model.User;
 
 import java.util.ArrayList;
 
@@ -10,7 +18,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NetworkCall implements PostNetworkCall {
+public class NetworkCall implements PostNetworkCall, UserNetworkCall, CommentNetworkCall {
 
     private FeedService feedService;
 
@@ -25,13 +33,52 @@ public class NetworkCall implements PostNetworkCall {
             @Override
             public void onResponse(Call<ArrayList<Post>> call, Response<ArrayList<Post>> response) {
                 if (response.body() != null && response.body().size() > 0) {
-                    callback.onSuccess(response.body());
+                    callback.onPostsResponse(response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Post>> call, Throwable t) {
-                callback.onFail();
+                callback.onPostsError();
+            }
+        });
+    }
+
+    @Override
+    public void getUsers(final UserResponseCallback callback) {
+        Call<ArrayList<User>> usersCall = feedService.getUsers();
+        usersCall.enqueue(new Callback<ArrayList<User>>() {
+            @Override
+            public void onResponse(Call<ArrayList<User>> call, final Response<ArrayList<User>> response) {
+                Log.v("lnln", "success usersCall");
+                if (response.body() != null && response.body().size() > 0) {
+                    callback.onUsersResponse(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<User>> call, Throwable t) {
+                callback.onUsersError();
+            }
+        });
+
+    }
+
+    @Override
+    public void getComments(final CommentResponseCallback callback) {
+        Call<ArrayList<Comment>> commentsCall = feedService.getComments();
+        commentsCall.enqueue(new Callback<ArrayList<Comment>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Comment>> call, final Response<ArrayList<Comment>> response) {
+                Log.v("lnln", "success postsCall");
+                if (response.body() != null && response.body().size() > 0) {
+                    callback.onCommentsResponse(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Comment>> call, Throwable t) {
+                callback.onCommentsError();
             }
         });
     }
