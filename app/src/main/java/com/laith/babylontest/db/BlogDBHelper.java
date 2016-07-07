@@ -151,10 +151,6 @@ public class BlogDBHelper extends SQLiteOpenHelper implements DBHelper {
         }
     }
 
-    public ArrayList<User> getAllUser() {
-        return new ArrayList<>();
-    }
-
     public void updatePosts(ArrayList<Post> posts) {
         for (Post post : posts) {
             addPost(post);
@@ -228,6 +224,44 @@ public class BlogDBHelper extends SQLiteOpenHelper implements DBHelper {
     }
 
     @Override
+    public ArrayList<Comment> getCommentsByPostId(int postId) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] projection = {
+                CommentTable.NAME,
+                CommentTable.EMAIL,
+                CommentTable.BODY,
+        };
+
+        String sortOrder = CommentTable._COMMENT_ID + " DESC";
+        String whereClause = CommentTable.POST_ID + " = ?";
+
+        Cursor c = db.query(
+                CommentTable.TABLE_NAME,  // The table to query
+                projection,                               // The columns to return
+                whereClause,                              // The columns for the WHERE clause
+                new String[]{Integer.toString(postId)},   // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+
+        ArrayList<Comment> comments = new ArrayList<>();
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            Comment comment = new Comment();
+            comment.setName(c.getString(0));
+            comment.setEmail(c.getString(1));
+            comment.setBody(c.getString(2));
+
+            comments.add(comment);
+            c.moveToNext();
+        }
+        c.close();
+        return comments;
+    }
+
+    @Override
     public void updateComments(ArrayList<Comment> comments) {
         for (Comment comment : comments) {
             addComment(comment);
@@ -248,7 +282,7 @@ public class BlogDBHelper extends SQLiteOpenHelper implements DBHelper {
                 UserTable.TABLE_NAME,  // The table to query
                 projection,                               // The columns to return
                 whereClause,                              // The columns for the WHERE clause
-                new String[] {Integer.toString(userID)},  // The values for the WHERE clause
+                new String[]{Integer.toString(userID)},  // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
                 null                                 // The sort order
@@ -293,10 +327,5 @@ public class BlogDBHelper extends SQLiteOpenHelper implements DBHelper {
             return false;
         }
     }
-
-    public ArrayList<Comment> getAllComment() {
-        return new ArrayList<>();
-    }
-
 
 }

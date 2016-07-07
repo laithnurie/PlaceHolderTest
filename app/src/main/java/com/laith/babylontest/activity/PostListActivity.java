@@ -16,12 +16,12 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class PostListActivity extends AppCompatActivity implements UserResponseCallback, CommentResponseCallback{
+public class PostListActivity extends AppCompatActivity implements UserResponseCallback, CommentResponseCallback {
 
     @Inject
-    private NetworkCall networkCall;
+    NetworkCall networkCall;
     @Inject
-    private DBHelper blogDBHelper;
+    DBHelper blogDBHelper;
 
     private PostListViewModel postListViewModel;
 
@@ -31,8 +31,8 @@ public class PostListActivity extends AppCompatActivity implements UserResponseC
         setContentView(R.layout.activity_main);
 
         BabylonApp.getAppComponent(this).inject(this);
-        postListViewModel = new PostListPortraitViewModel(findViewById(android.R.id.content), this, networkCall,
-                blogDBHelper, savedInstanceState);
+        postListViewModel = new PostListPortraitViewModel(findViewById(android.R.id.content), this,
+                networkCall, blogDBHelper, savedInstanceState);
 
         networkCall.getComments(this);
         networkCall.getUsers(this);
@@ -50,17 +50,7 @@ public class PostListActivity extends AppCompatActivity implements UserResponseC
     }
 
     @Override
-    public void onUsersError() {
-
-    }
-
-    @Override
     public void onCommentsResponse(ArrayList<Comment> comments) {
         blogDBHelper.updateComments(comments);
-    }
-
-    @Override
-    public void onCommentsError() {
-        //
     }
 }

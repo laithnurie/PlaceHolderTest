@@ -11,5 +11,6 @@ public interface DBHelper {
     void updateUsers(ArrayList<User> users);
     void updateComments(ArrayList<Comment> users);
     ArrayList<Post> getAllPosts();
+    ArrayList<Comment> getCommentsByPostId(int postId);
     User getBriefUserInfo(int userId);
 }

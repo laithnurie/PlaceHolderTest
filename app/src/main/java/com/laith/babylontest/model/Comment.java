@@ -26,4 +26,16 @@ public class Comment {
     public String getBody() {
         return body;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
 }

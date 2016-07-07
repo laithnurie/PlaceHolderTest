@@ -6,5 +6,4 @@ import java.util.ArrayList;
 
 public interface CommentResponseCallback {
     void onCommentsResponse(ArrayList<Comment> comments);
-    void onCommentsError();
 }

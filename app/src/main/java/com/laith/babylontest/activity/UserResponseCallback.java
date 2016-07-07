@@ -5,6 +5,5 @@ import java.util.ArrayList;
 
 public interface UserResponseCallback {
     void onUsersResponse(ArrayList<User> users);
-    void onUsersError();
 }
 

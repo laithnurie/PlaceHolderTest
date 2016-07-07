@@ -55,7 +55,7 @@ public class NetworkCall implements PostNetworkCall, UserNetworkCall, CommentNet
 
             @Override
             public void onFailure(Call<ArrayList<User>> call, Throwable t) {
-                callback.onUsersError();
+
             }
         });
 
@@ -74,7 +74,6 @@ public class NetworkCall implements PostNetworkCall, UserNetworkCall, CommentNet
 
             @Override
             public void onFailure(Call<ArrayList<Comment>> call, Throwable t) {
-                callback.onCommentsError();
             }
         });
     }

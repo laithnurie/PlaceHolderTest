@@ -17,7 +17,7 @@ import javax.inject.Inject;
 public class PostActivity extends AppCompatActivity {
 
     @Inject
-    private DBHelper blogDBHelper;
+    DBHelper blogDBHelper;
 
     private final static String POST_PARAM = "post";
 
