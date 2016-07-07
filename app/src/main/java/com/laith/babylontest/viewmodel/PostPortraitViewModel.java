@@ -1,6 +1,5 @@
 package com.laith.babylontest.viewmodel;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,7 +11,6 @@ public class PostPortraitViewModel implements PostViewModel {
     private final TextView postBody;
     private final TextView userName;
     private final TextView noOfComments;
-    private Post mPost;
 
     public PostPortraitViewModel(View rootView) {
         postTitle = (TextView) rootView.findViewById(R.id.txt_post_title);
@@ -23,15 +21,9 @@ public class PostPortraitViewModel implements PostViewModel {
 
     @Override
     public void setPost(Post post) {
-        mPost = post;
-        postTitle.setText(mPost.getTitle());
-        postBody.setText(mPost.getBody());
-        userName.setText(Integer.toString(mPost.getUserId()));
-        noOfComments.setText(Integer.toString(mPost.getId()));
-    }
-
-    @Override
-    public void onSavedInstance(Bundle outState) {
-
+        postTitle.setText(post.getTitle());
+        postBody.setText(post.getBody());
+        userName.setText(Integer.toString(post.getUserId()));
+        noOfComments.setText(Integer.toString(post.getId()));
     }
 }

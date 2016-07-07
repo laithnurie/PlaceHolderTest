@@ -63,12 +63,20 @@ public class PostListPortraitViewModelTest {
     }
 
     @Test
-    public void postsAvailableInSavedInstance() {
+    public void WhenPostsAvailableInSavedInstance() {
         ArrayList<Post> posts = createPosts();
         doReturn(posts).when(savedInstanceState).getParcelableArrayList("posts");
         sut.initialise(rootView, context,
                 postNetworkCall, dbHelper, savedInstanceState);
         verify(postsList, times(1)).setAdapter(isA(PostsListAdapter.class));
+    }
+
+    @Test
+    public void WhenSavedInstanceDoesntContainPosts() {
+        doReturn(null).when(savedInstanceState).getParcelableArrayList("posts");
+        sut.initialise(rootView, context,
+                postNetworkCall, dbHelper, savedInstanceState);
+        verify(postNetworkCall, times(1)).getPosts(sut);
     }
 
     @Test

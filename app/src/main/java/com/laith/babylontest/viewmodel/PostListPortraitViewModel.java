@@ -30,7 +30,7 @@ public class PostListPortraitViewModel implements PostListViewModel, PostRespons
         mContext = context;
         mDbHelper = dbHelper;
         postsList = (RecyclerView) rootview.findViewById(R.id.postList);
-        postsList.setLayoutManager(new LinearLayoutManager(rootview.getContext()));
+        postsList.setLayoutManager(new LinearLayoutManager(context));
         if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(POSTS_KEY) != null) {
             mPosts = savedInstanceState.getParcelableArrayList(POSTS_KEY);
             updatePostList(mPosts);
