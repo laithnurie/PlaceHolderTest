@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.laith.babylontest.R;
 import com.laith.babylontest.model.Post;
+import com.laith.babylontest.viewmodel.PostPortraitViewModel;
 
 public class PostActivity extends AppCompatActivity {
     private static String POST_PARAM = "post";

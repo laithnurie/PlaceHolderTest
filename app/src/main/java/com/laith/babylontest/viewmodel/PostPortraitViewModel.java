@@ -1,4 +1,4 @@
-package com.laith.babylontest.activity;
+package com.laith.babylontest.viewmodel;
 
 import android.os.Bundle;
 import android.view.View;

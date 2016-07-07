@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.laith.babylontest.R;
 import com.laith.babylontest.activity.PostActivity;
-import com.laith.babylontest.activity.PostListActivity;
 import com.laith.babylontest.activity.PostNetworkCall;
 import com.laith.babylontest.activity.PostResponseCallback;
 import com.laith.babylontest.adapter.PostsListAdapter;
@@ -25,7 +24,6 @@ public class PostListPortraitViewModel implements PostListViewModel, PostRespons
     private DBHelper mDbHelper;
     private RecyclerView postsList;
     private ArrayList<Post> mPosts;
-
 
     @Override
     public void initialise(View rootview, Context context, PostNetworkCall postNetworkCall, DBHelper dbHelper, Bundle savedInstanceState) {

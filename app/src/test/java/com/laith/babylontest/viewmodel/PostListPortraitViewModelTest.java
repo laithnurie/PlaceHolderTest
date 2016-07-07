@@ -49,23 +49,73 @@ public class PostListPortraitViewModelTest {
     @Mock
     RecyclerView postsList;
 
+    private PostListPortraitViewModel sut;
 
     @Before
     public void setUp() {
         initMocks(this);
+        when(rootView.findViewById(R.id.postList)).thenReturn(postsList);
+        sut = new PostListPortraitViewModel();
     }
 
-
     @Test
-    public void initialTest() throws Exception {
+    public void postsAvailableInSavedInstance() {
         ArrayList<Post> posts = createPosts();
         doReturn(posts).when(savedInstanceState).getParcelableArrayList("posts");
-        when(rootView.findViewById(R.id.postList)).thenReturn(postsList);
-        PostListPortraitViewModel sut = new PostListPortraitViewModel();
         sut.initialise(rootView, context,
                 postNetworkCall, dbHelper, savedInstanceState);
         verify(postsList, times(1)).setAdapter(isA(PostsListAdapter.class));
     }
+
+    @Test
+    public void whenMultiplePostsReturned() {
+        ArrayList<Post> posts = createPosts();
+        sut.initialise(rootView, context,
+                postNetworkCall, dbHelper, null);
+        verify(postNetworkCall, times(1)).getPosts(sut);
+        sut.onPostsResponse(posts);
+        verify(dbHelper, times(1)).updatePosts(posts);
+        verify(postsList, times(1)).setAdapter(isA(PostsListAdapter.class));
+    }
+
+    @Test
+    public void whenEmptyPostsReturnedUseOfflineData() {
+
+        ArrayList<Post> emptyPost = new ArrayList<>();
+        ArrayList<Post> offlinePosts = createPosts();
+        when(dbHelper.getAllPosts()).thenReturn(offlinePosts);
+
+        sut.initialise(rootView, context,
+                postNetworkCall, dbHelper, null);
+        verify(postNetworkCall, times(1)).getPosts(sut);
+        sut.onPostsResponse(emptyPost);
+        verify(dbHelper, times(1)).getAllPosts();
+        verify(postsList, times(1)).setAdapter(isA(PostsListAdapter.class));
+    }
+
+    @Test
+    public void whenNullPostsReturnedUseOfflineData() {
+        ArrayList<Post> offlinePosts = createPosts();
+        when(dbHelper.getAllPosts()).thenReturn(offlinePosts);
+
+        sut.initialise(rootView, context,
+                postNetworkCall, dbHelper, null);
+        verify(postNetworkCall, times(1)).getPosts(sut);
+        sut.onPostsResponse(null);
+        verify(dbHelper, times(1)).getAllPosts();
+        verify(postsList, times(1)).setAdapter(isA(PostsListAdapter.class));
+    }
+
+    @Test
+    public void whenOnSaveInstanceStateIsCalled() {
+        ArrayList<Post> posts = createPosts();
+        doReturn(posts).when(savedInstanceState).getParcelableArrayList("posts");
+        sut.initialise(rootView, context,
+                postNetworkCall, dbHelper, savedInstanceState);
+        sut.onSaveInstanceState(savedInstanceState);
+        verify(savedInstanceState, times(1)).putParcelableArrayList("posts", posts);
+    }
+
 
     private ArrayList<Post> createPosts() {
         ArrayList<Post> posts = new ArrayList<>();
