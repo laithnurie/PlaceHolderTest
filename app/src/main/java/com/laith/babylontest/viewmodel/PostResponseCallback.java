@@ -1,4 +1,4 @@
-package com.laith.babylontest.activity;
+package com.laith.babylontest.viewmodel;
 
 import com.laith.babylontest.model.Post;
 
