@@ -59,14 +59,13 @@ public class PostListPortraitViewModelTest {
     public void setUp() {
         initMocks(this);
         when(rootView.findViewById(R.id.postList)).thenReturn(postsList);
-        sut = new PostListPortraitViewModel();
     }
 
     @Test
     public void WhenPostsAvailableInSavedInstance() {
         ArrayList<Post> posts = createPosts();
         doReturn(posts).when(savedInstanceState).getParcelableArrayList("posts");
-        sut.initialise(rootView, context,
+        sut = new PostListPortraitViewModel(rootView, context,
                 postNetworkCall, dbHelper, savedInstanceState);
         verify(postsList, times(1)).setAdapter(isA(PostsListAdapter.class));
     }
@@ -74,7 +73,7 @@ public class PostListPortraitViewModelTest {
     @Test
     public void WhenSavedInstanceDoesntContainPosts() {
         doReturn(null).when(savedInstanceState).getParcelableArrayList("posts");
-        sut.initialise(rootView, context,
+        sut = new PostListPortraitViewModel(rootView, context,
                 postNetworkCall, dbHelper, savedInstanceState);
         verify(postNetworkCall, times(1)).getPosts(sut);
     }
@@ -82,7 +81,7 @@ public class PostListPortraitViewModelTest {
     @Test
     public void whenMultiplePostsReturned() {
         ArrayList<Post> posts = createPosts();
-        sut.initialise(rootView, context,
+        sut = new PostListPortraitViewModel(rootView, context,
                 postNetworkCall, dbHelper, null);
         verify(postNetworkCall, times(1)).getPosts(sut);
         sut.onPostsResponse(posts);
@@ -97,7 +96,7 @@ public class PostListPortraitViewModelTest {
         ArrayList<Post> offlinePosts = createPosts();
         when(dbHelper.getAllPosts()).thenReturn(offlinePosts);
 
-        sut.initialise(rootView, context,
+        sut = new PostListPortraitViewModel(rootView, context,
                 postNetworkCall, dbHelper, null);
         verify(postNetworkCall, times(1)).getPosts(sut);
         sut.onPostsResponse(emptyPost);
@@ -110,7 +109,7 @@ public class PostListPortraitViewModelTest {
         ArrayList<Post> offlinePosts = createPosts();
         when(dbHelper.getAllPosts()).thenReturn(offlinePosts);
 
-        sut.initialise(rootView, context,
+        sut = new PostListPortraitViewModel(rootView, context,
                 postNetworkCall, dbHelper, null);
         verify(postNetworkCall, times(1)).getPosts(sut);
         sut.onPostsResponse(null);
@@ -123,7 +122,7 @@ public class PostListPortraitViewModelTest {
         ArrayList<Post> offlinePosts = createPosts();
         when(dbHelper.getAllPosts()).thenReturn(offlinePosts);
 
-        sut.initialise(rootView, context,
+        sut = new PostListPortraitViewModel(rootView, context,
                 postNetworkCall, dbHelper, null);
         verify(postNetworkCall, times(1)).getPosts(sut);
         sut.onPostsError();
@@ -135,7 +134,7 @@ public class PostListPortraitViewModelTest {
     public void whenOnSaveInstanceStateIsCalled() {
         ArrayList<Post> posts = createPosts();
         doReturn(posts).when(savedInstanceState).getParcelableArrayList("posts");
-        sut.initialise(rootView, context,
+        sut = new PostListPortraitViewModel(rootView, context,
                 postNetworkCall, dbHelper, savedInstanceState);
         sut.onSaveInstanceState(savedInstanceState);
         verify(savedInstanceState, times(1)).putParcelableArrayList("posts", posts);
@@ -152,7 +151,7 @@ public class PostListPortraitViewModelTest {
         postClicked.setId(1);
 
         Intent mockedIntent = mock(Intent.class);
-        sut.initialise(rootView, context,
+        sut = new PostListPortraitViewModel(rootView, context,
                 postNetworkCall, dbHelper, null);
         when(PostActivity.getIntent(postClicked, context)).thenReturn(mockedIntent);
         sut.onClick(postClicked);

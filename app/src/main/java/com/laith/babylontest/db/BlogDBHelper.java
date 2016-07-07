@@ -16,7 +16,6 @@ import com.laith.babylontest.model.User;
 
 import java.util.ArrayList;
 
-
 public class BlogDBHelper extends SQLiteOpenHelper implements DBHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "BabylonBlog.db";
@@ -108,6 +107,7 @@ public class BlogDBHelper extends SQLiteOpenHelper implements DBHelper {
             ContentValues values = new ContentValues();
             values.put(UserTable._ID, user.getId());
             values.put(UserTable.USERNAME, user.getUsername());
+            values.put(UserTable.NAME, user.getName());
             values.put(UserTable.EMAIL, user.getEmail());
 
             values.put(UserTable.PHONE, user.getPhone());
@@ -232,6 +232,38 @@ public class BlogDBHelper extends SQLiteOpenHelper implements DBHelper {
         for (Comment comment : comments) {
             addComment(comment);
         }
+    }
+
+    @Override
+    public User getBriefUserInfo(int userID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] projection = {
+                UserTable.NAME,
+                UserTable.EMAIL
+        };
+
+        String whereClause = UserTable._ID + " = ?";
+
+        Cursor c = db.query(
+                UserTable.TABLE_NAME,  // The table to query
+                projection,                               // The columns to return
+                whereClause,                              // The columns for the WHERE clause
+                new String[] {Integer.toString(userID)},  // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        User user = null;
+        if (c != null) {
+            c.moveToFirst();
+            user = new User();
+            user.setName(c.getString(0));
+            user.setEmail(c.getString(1));
+            c.close();
+        }
+
+        return user;
     }
 
     private void addComment(Comment comment) {

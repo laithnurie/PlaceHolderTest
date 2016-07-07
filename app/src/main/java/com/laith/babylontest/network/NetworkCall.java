@@ -1,7 +1,5 @@
 package com.laith.babylontest.network;
 
-import android.util.Log;
-
 import com.laith.babylontest.activity.CommentNetworkCall;
 import com.laith.babylontest.activity.CommentResponseCallback;
 import com.laith.babylontest.activity.PostNetworkCall;
@@ -50,7 +48,6 @@ public class NetworkCall implements PostNetworkCall, UserNetworkCall, CommentNet
         usersCall.enqueue(new Callback<ArrayList<User>>() {
             @Override
             public void onResponse(Call<ArrayList<User>> call, final Response<ArrayList<User>> response) {
-                Log.v("lnln", "success usersCall");
                 if (response.body() != null && response.body().size() > 0) {
                     callback.onUsersResponse(response.body());
                 }
@@ -70,7 +67,6 @@ public class NetworkCall implements PostNetworkCall, UserNetworkCall, CommentNet
         commentsCall.enqueue(new Callback<ArrayList<Comment>>() {
             @Override
             public void onResponse(Call<ArrayList<Comment>> call, final Response<ArrayList<Comment>> response) {
-                Log.v("lnln", "success postsCall");
                 if (response.body() != null && response.body().size() > 0) {
                     callback.onCommentsResponse(response.body());
                 }

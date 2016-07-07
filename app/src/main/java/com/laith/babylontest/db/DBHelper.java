@@ -10,7 +10,6 @@ public interface DBHelper {
     void updatePosts(ArrayList<Post> posts);
     void updateUsers(ArrayList<User> users);
     void updateComments(ArrayList<Comment> users);
-
     ArrayList<Post> getAllPosts();
-
+    User getBriefUserInfo(int userId);
 }

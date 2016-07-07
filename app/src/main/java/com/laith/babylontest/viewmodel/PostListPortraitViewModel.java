@@ -25,8 +25,7 @@ public class PostListPortraitViewModel implements PostListViewModel, PostRespons
     private RecyclerView postsList;
     private ArrayList<Post> mPosts;
 
-    @Override
-    public void initialise(View rootview, Context context, PostNetworkCall postNetworkCall, DBHelper dbHelper, Bundle savedInstanceState) {
+    public PostListPortraitViewModel(View rootview, Context context, PostNetworkCall postNetworkCall, DBHelper dbHelper, Bundle savedInstanceState) {
         mContext = context;
         mDbHelper = dbHelper;
         postsList = (RecyclerView) rootview.findViewById(R.id.postList);

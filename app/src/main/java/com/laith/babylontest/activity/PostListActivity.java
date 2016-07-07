@@ -31,8 +31,7 @@ public class PostListActivity extends AppCompatActivity implements UserResponseC
         setContentView(R.layout.activity_main);
 
         BabylonApp.getAppComponent(this).inject(this);
-        postListViewModel = new PostListPortraitViewModel();
-        postListViewModel.initialise(findViewById(android.R.id.content), this, networkCall,
+        postListViewModel = new PostListPortraitViewModel(findViewById(android.R.id.content), this, networkCall,
                 blogDBHelper, savedInstanceState);
 
         networkCall.getComments(this);
