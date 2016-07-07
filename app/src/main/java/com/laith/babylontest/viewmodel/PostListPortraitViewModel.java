@@ -58,10 +58,8 @@ public class PostListPortraitViewModel implements PostListViewModel, PostRespons
 
     @Override
     public void onPostsError() {
-        if (mDbHelper.getAllPosts() != null && mDbHelper.getAllPosts().size() > 0) {
-            mPosts = mDbHelper.getAllPosts();
-            updatePostList(mPosts);
-        }
+        mPosts = mDbHelper.getAllPosts();
+        updatePostList(mPosts);
     }
 
     private void updatePostList(ArrayList<Post> posts) {

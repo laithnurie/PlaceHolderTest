@@ -1,11 +1,13 @@
 package com.laith.babylontest.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.laith.babylontest.R;
+import com.laith.babylontest.activity.PostActivity;
 import com.laith.babylontest.activity.PostNetworkCall;
 import com.laith.babylontest.adapter.PostsListAdapter;
 import com.laith.babylontest.db.DBHelper;
@@ -22,13 +24,15 @@ import java.util.ArrayList;
 
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(PostListPortraitViewModelTest.class)
+@PrepareForTest({PostListPortraitViewModelTest.class, PostActivity.class})
 public class PostListPortraitViewModelTest {
 
     @Mock
@@ -107,6 +111,19 @@ public class PostListPortraitViewModelTest {
     }
 
     @Test
+    public void whenPostsErrorReturnedUseOfflineData() {
+        ArrayList<Post> offlinePosts = createPosts();
+        when(dbHelper.getAllPosts()).thenReturn(offlinePosts);
+
+        sut.initialise(rootView, context,
+                postNetworkCall, dbHelper, null);
+        verify(postNetworkCall, times(1)).getPosts(sut);
+        sut.onPostsError();
+        verify(dbHelper, times(1)).getAllPosts();
+        verify(postsList, times(1)).setAdapter(isA(PostsListAdapter.class));
+    }
+
+    @Test
     public void whenOnSaveInstanceStateIsCalled() {
         ArrayList<Post> posts = createPosts();
         doReturn(posts).when(savedInstanceState).getParcelableArrayList("posts");
@@ -114,6 +131,24 @@ public class PostListPortraitViewModelTest {
                 postNetworkCall, dbHelper, savedInstanceState);
         sut.onSaveInstanceState(savedInstanceState);
         verify(savedInstanceState, times(1)).putParcelableArrayList("posts", posts);
+    }
+
+    @Test
+    public void whenOnPostClicked() {
+        mockStatic(PostActivity.class);
+
+        Post postClicked = new Post();
+        postClicked.setTitle("test");
+        postClicked.setBody("body");
+        postClicked.setUserId(1);
+        postClicked.setId(1);
+
+        Intent mockedIntent = mock(Intent.class);
+        sut.initialise(rootView, context,
+                postNetworkCall, dbHelper, null);
+        when(PostActivity.getIntent(postClicked, context)).thenReturn(mockedIntent);
+        sut.onClick(postClicked);
+        verify(context, times(1)).startActivity(mockedIntent);
     }
 
 
