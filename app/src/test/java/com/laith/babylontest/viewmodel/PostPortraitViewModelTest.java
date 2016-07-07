@@ -10,7 +10,6 @@ import com.laith.babylontest.db.DBHelper;
 import com.laith.babylontest.model.Post;
 import com.laith.babylontest.model.User;
 import com.laith.babylontest.network.ImageLoadUtil;
-import com.squareup.picasso.Picasso;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,7 +55,7 @@ public class PostPortraitViewModelTest {
     @Mock
     ImageView userImage;
 
-    PostPortraitViewModel sut;
+    private PostPortraitViewModel sut;
 
     @Before
     public void setUp() {

@@ -17,9 +17,9 @@ import javax.inject.Inject;
 public class PostActivity extends AppCompatActivity {
 
     @Inject
-    DBHelper blogDBHelper;
+    private DBHelper blogDBHelper;
 
-    private static String POST_PARAM = "post";
+    private final static String POST_PARAM = "post";
 
     public static Intent getIntent(Post post, Context context) {
         Intent intent = new Intent(context, PostActivity.class);

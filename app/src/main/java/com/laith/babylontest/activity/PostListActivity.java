@@ -19,9 +19,9 @@ import javax.inject.Inject;
 public class PostListActivity extends AppCompatActivity implements UserResponseCallback, CommentResponseCallback{
 
     @Inject
-    NetworkCall networkCall;
+    private NetworkCall networkCall;
     @Inject
-    DBHelper blogDBHelper;
+    private DBHelper blogDBHelper;
 
     private PostListViewModel postListViewModel;
 
@@ -61,6 +61,6 @@ public class PostListActivity extends AppCompatActivity implements UserResponseC
 
     @Override
     public void onCommentsError() {
-
+        //
     }
 }

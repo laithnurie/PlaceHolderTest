@@ -18,7 +18,7 @@ import retrofit2.Response;
 
 public class NetworkCall implements PostNetworkCall, UserNetworkCall, CommentNetworkCall {
 
-    private FeedService feedService;
+    final private FeedService feedService;
 
     public NetworkCall(FeedService feedService) {
         this.feedService = feedService;

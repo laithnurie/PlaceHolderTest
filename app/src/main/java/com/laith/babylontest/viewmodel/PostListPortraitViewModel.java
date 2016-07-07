@@ -20,8 +20,8 @@ public class PostListPortraitViewModel implements PostListViewModel, PostRespons
 
     private static final String POSTS_KEY = "posts";
 
-    private Context mContext;
-    private DBHelper mDbHelper;
+    private final Context mContext;
+    private final DBHelper mDbHelper;
     private RecyclerView postsList;
     private ArrayList<Post> mPosts;
 

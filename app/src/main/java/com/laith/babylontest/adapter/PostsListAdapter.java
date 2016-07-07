@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.ViewHolder> {
 
-    private ArrayList<Post> posts;
-    private PostClickListener clickListener;
+    private final ArrayList<Post> posts;
+    private final PostClickListener clickListener;
 
     public PostsListAdapter(ArrayList<Post> posts, PostClickListener clickListener) {
         this.posts = posts;
