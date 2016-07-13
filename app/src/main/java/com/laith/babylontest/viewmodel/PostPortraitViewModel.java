@@ -23,10 +23,12 @@ public class PostPortraitViewModel implements PostViewModel {
     private final TextView postBody;
     private final TextView name;
     private final RecyclerView postCommentsList;
+    private final UserClickListener userClickListener;
     private final DBHelper blogDBHelper;
     private final Context context;
 
-    public PostPortraitViewModel(View rootView, DBHelper blogDBHelper, Context context) {
+    public PostPortraitViewModel(View rootView, DBHelper blogDBHelper, Context context,
+                                 UserClickListener userClickListener) {
         userImage = (ImageView) rootView.findViewById(R.id.img_user);
         postTitle = (TextView) rootView.findViewById(R.id.txt_post_title);
         postBody = (TextView) rootView.findViewById(R.id.txt_post_body);
@@ -35,16 +37,23 @@ public class PostPortraitViewModel implements PostViewModel {
         postCommentsList.setLayoutManager(new LinearLayoutManager(context));
         this.blogDBHelper = blogDBHelper;
         this.context = context;
+        this.userClickListener = userClickListener;
     }
 
     @Override
-    public void setPost(Post post) {
+    public void setPost(final Post post) {
         postTitle.setText(post.getTitle());
         postBody.setText(post.getBody());
-        User user = blogDBHelper.getBriefUserInfo(post.getUserId());
+        final User user = blogDBHelper.getBriefUserInfo(post.getUserId());
         if (user != null) {
             name.setText(user.getName());
             ImageLoadUtil.loadUserImage(user.getEmail(), context, userImage);
+            userImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    userClickListener.onUserClicked(post.getUserId());
+                }
+            });
         }
         ArrayList<Comment> postComments = blogDBHelper.getCommentsByPostId(post.getId());
         if (postComments.size() > 0) {

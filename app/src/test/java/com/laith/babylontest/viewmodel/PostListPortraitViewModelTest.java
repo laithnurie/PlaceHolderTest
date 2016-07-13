@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.laith.babylontest.R;
 import com.laith.babylontest.activity.PostActivity;
-import com.laith.babylontest.activity.PostNetworkCall;
+import com.laith.babylontest.network.PostNetworkCall;
 import com.laith.babylontest.adapter.PostsListAdapter;
 import com.laith.babylontest.db.DBHelper;
 import com.laith.babylontest.model.Post;

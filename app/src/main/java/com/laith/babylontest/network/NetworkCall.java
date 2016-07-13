@@ -1,11 +1,6 @@
 package com.laith.babylontest.network;
 
-import com.laith.babylontest.activity.CommentNetworkCall;
-import com.laith.babylontest.activity.CommentResponseCallback;
-import com.laith.babylontest.activity.PostNetworkCall;
 import com.laith.babylontest.viewmodel.PostResponseCallback;
-import com.laith.babylontest.activity.UserNetworkCall;
-import com.laith.babylontest.activity.UserResponseCallback;
 import com.laith.babylontest.model.Comment;
 import com.laith.babylontest.model.Post;
 import com.laith.babylontest.model.User;

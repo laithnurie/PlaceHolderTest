@@ -8,7 +8,9 @@ import com.laith.babylontest.R;
 import com.laith.babylontest.db.DBHelper;
 import com.laith.babylontest.model.Comment;
 import com.laith.babylontest.model.User;
+import com.laith.babylontest.network.CommentResponseCallback;
 import com.laith.babylontest.network.NetworkCall;
+import com.laith.babylontest.network.UserResponseCallback;
 import com.laith.babylontest.viewmodel.PostListPortraitViewModel;
 import com.laith.babylontest.viewmodel.PostListViewModel;
 

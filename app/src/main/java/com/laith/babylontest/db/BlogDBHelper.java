@@ -118,6 +118,7 @@ public class BlogDBHelper extends SQLiteOpenHelper implements DBHelper {
                 values.put(UserTable.STREET, address.getStreet());
                 values.put(UserTable.SUITE, address.getSuite());
                 values.put(UserTable.CITY, address.getCity());
+                values.put(UserTable.ZIPCODE, address.getZipcode());
 
                 if (address.getGeo() != null) {
                     GeoCoords geoCoords = address.getGeo();
@@ -294,6 +295,75 @@ public class BlogDBHelper extends SQLiteOpenHelper implements DBHelper {
             user = new User();
             user.setName(c.getString(0));
             user.setEmail(c.getString(1));
+            c.close();
+        }
+
+        return user;
+    }
+
+    @Override
+    public User getFullUserInfo(int userID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] projection = {
+                UserTable.NAME,
+                UserTable.USERNAME,
+                UserTable.EMAIL,
+                UserTable.PHONE,
+                UserTable.WEBSITE,
+                UserTable.STREET,
+                UserTable.SUITE,
+                UserTable.CITY,
+                UserTable.ZIPCODE,
+                UserTable.LATITUDE,
+                UserTable.LONGITUDE,
+                UserTable.COMPANY_NAME,
+                UserTable.COMPANY_CATCH_PHRASE,
+                UserTable.COMPANY_BUSINESS
+        };
+
+        String whereClause = UserTable._ID + " = ?";
+
+        Cursor c = db.query(
+                UserTable.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                whereClause,                              // The columns for the WHERE clause
+                new String[]{Integer.toString(userID)},   // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                      // The sort order
+        );
+
+        User user = null;
+        if (c != null) {
+            c.moveToFirst();
+            user = new User();
+            user.setId(userID);
+            user.setName(c.getString(0));
+            user.setUsername(c.getString(1));
+            user.setEmail(c.getString(2));
+            user.setPhone(c.getString(3));
+            user.setWebsite(c.getString(4));
+
+            Address address = new Address();
+            address.setStreet(c.getString(5));
+            address.setSuite(c.getString(6));
+            address.setCity(c.getString(7));
+            address.setZipcode(c.getString(8));
+
+            GeoCoords geoCoords = new GeoCoords();
+            geoCoords.setLat(c.getString(9));
+            geoCoords.setLng(c.getString(10));
+            address.setGeo(geoCoords);
+
+            user.setAddress(address);
+
+            Company company = new Company();
+            company.setName(c.getString(11));
+            company.setCatchPhrase(c.getString(12));
+            company.setBusiness(c.getString(13));
+
+            user.setCompany(company);
+
             c.close();
         }
 

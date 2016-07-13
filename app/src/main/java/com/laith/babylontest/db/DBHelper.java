@@ -13,4 +13,5 @@ public interface DBHelper {
     ArrayList<Post> getAllPosts();
     ArrayList<Comment> getCommentsByPostId(int postId);
     User getBriefUserInfo(int userId);
+    User getFullUserInfo(int userID);
 }

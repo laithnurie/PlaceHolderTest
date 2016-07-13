@@ -11,10 +11,11 @@ import com.laith.babylontest.R;
 import com.laith.babylontest.db.DBHelper;
 import com.laith.babylontest.model.Post;
 import com.laith.babylontest.viewmodel.PostPortraitViewModel;
+import com.laith.babylontest.viewmodel.UserClickListener;
 
 import javax.inject.Inject;
 
-public class PostActivity extends AppCompatActivity {
+public class PostActivity extends AppCompatActivity implements UserClickListener {
 
     @Inject
     DBHelper blogDBHelper;
@@ -31,16 +32,19 @@ public class PostActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-
         BabylonApp.getAppComponent(this).inject(this);
 
         Bundle bundle = getIntent().getExtras();
         Post post = bundle.getParcelable(POST_PARAM);
-
         PostPortraitViewModel postViewModel = new PostPortraitViewModel(findViewById(android.R.id.content)
-                , blogDBHelper, this);
+                , blogDBHelper, this, this);
         if (post != null) {
             postViewModel.setPost(post);
         }
+    }
+
+    @Override
+    public void onUserClicked(int userId) {
+        startActivity(UserActivity.getIntent(userId, this));
     }
 }

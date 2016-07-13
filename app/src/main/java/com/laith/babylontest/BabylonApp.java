@@ -1,7 +1,7 @@
 package com.laith.babylontest;
 
-import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDexApplication;
 
 import com.facebook.stetho.Stetho;
 import com.laith.babylontest.network.NetworkCall;
@@ -17,7 +17,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class BabylonApp extends Application {
+public class BabylonApp extends MultiDexApplication {
 
     private BabylonAppComponent babylonAppComponent;
 

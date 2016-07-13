@@ -34,7 +34,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({PostPortraitViewModelTest.class, ImageLoadUtil.class})
+@PrepareForTest({ImageLoadUtil.class})
 public class PostPortraitViewModelTest {
 
     @Mock
@@ -61,6 +61,9 @@ public class PostPortraitViewModelTest {
     @Mock
     ImageView userImage;
 
+    @Mock
+    UserClickListener userClickListener;
+
     private PostPortraitViewModel sut;
 
     @Before
@@ -73,7 +76,7 @@ public class PostPortraitViewModelTest {
         when(rootview.findViewById(R.id.txt_name)).thenReturn(name);
         when(rootview.findViewById(R.id.rv_post_comments)).thenReturn(postCommentsList);
         when(rootview.findViewById(R.id.img_user)).thenReturn(userImage);
-        sut = new PostPortraitViewModel(rootview, dbHelper, context);
+        sut = new PostPortraitViewModel(rootview, dbHelper, context, userClickListener);
     }
 
     @Test

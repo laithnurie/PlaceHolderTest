@@ -1,4 +1,4 @@
-package com.laith.babylontest.activity;
+package com.laith.babylontest.network;
 
 public interface UserNetworkCall {
     void getUsers(UserResponseCallback callback);
