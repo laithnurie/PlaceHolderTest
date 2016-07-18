@@ -32,7 +32,8 @@ public class PostActivity extends AppCompatActivity implements UserClickListener
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-        BabylonApp.getAppComponent(this).inject(this);
+
+        ((BabylonApp) getApplication()).getAppComponent(this).inject(this);
 
         Bundle bundle = getIntent().getExtras();
         Post post = bundle.getParcelable(POST_PARAM);

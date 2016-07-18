@@ -32,7 +32,7 @@ public class PostListActivity extends AppCompatActivity implements UserResponseC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BabylonApp.getAppComponent(this).inject(this);
+        ((BabylonApp) getApplication()).getAppComponent(this).inject(this);
         postListViewModel = new PostListPortraitViewModel(findViewById(android.R.id.content), this,
                 networkCall, blogDBHelper, savedInstanceState);
 

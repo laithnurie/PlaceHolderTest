@@ -41,7 +41,7 @@ public class BabylonApp extends MultiDexApplication {
         babylonAppComponent.inject(this);
     }
 
-    public static BabylonAppComponent getAppComponent(Context context) {
-        return ((BabylonApp) context.getApplicationContext()).babylonAppComponent;
+    public BabylonAppComponent getAppComponent(Context context) {
+        return babylonAppComponent;
     }
 }

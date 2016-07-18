@@ -31,7 +31,7 @@ public class UserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        BabylonApp.getAppComponent(this).inject(this);
+        ((BabylonApp) getApplication()).getAppComponent(this).inject(this);
 
         Bundle bundle = getIntent().getExtras();
         int userID = bundle.getInt(USER_ID_PARAM);

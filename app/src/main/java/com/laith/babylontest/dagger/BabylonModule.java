@@ -17,7 +17,7 @@ public class BabylonModule {
 
     @Provides
     @PerApp
-    Application providePlaygroundApp() {
+    Application provideApp() {
         return app;
     }
 }
